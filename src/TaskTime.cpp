@@ -57,29 +57,5 @@ std::string TaskTime::to_string(int space_len)
     PADDING << +task_time[3] <<
     "\n";
 
-    return string_string.str();
-}
-
-short operator+(TaskTime t1, TaskTime t2)
-{
-    unsigned char hours_t1, hours_t2, hours_total,
-    minutes_t1, minutes_t2, minutes_total;
-    short time_total;
-
-    hours_t1 = t1::task_time[2] - t1::task_time[0] - 1;
-    minutes_t1 = t1::task_time[3] + 60 - t1::task_time[1];
-    hours_t2 = t2::task_time[2] - t2::task_time[0] - 1;
-    minutes_t2 = t2::task_time[3] + 60 - t2::task_time[1];
-
-    hours_total = hours_t1 + hours_t2;
-    minutes_total = minutes_t1 + minutes_t2;
-
-    while(minutes_total >= 60)
-    {
-        minutes_total -= 60;
-        ++hours_total;
-    }
-
-    time_total = (((short)hours_total) << 8) | (short)minutes_total;
-    return time_total;
+    return string_stream.str();
 }

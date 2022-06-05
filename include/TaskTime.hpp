@@ -22,5 +22,4 @@ class TaskTime
         int get_len();
         std::vector<char> serialize();
         std::string to_string(int space_len);
-        short operator+(TaskTime t1, TaskTime t2);
 };
