@@ -1,0 +1,26 @@
+cmake_minimum_required(VERSION 3.14)
+project(ProjectJasmine VERSION 0.1)
+
+set(CMAKE_CXX_STANDARD 11)
+
+include(FetchContent)
+FetchContent_Declare(
+    googletest
+    URL https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip 
+)
+FetchContent_MakeAvailable(googletest)
+
+enable_testing()
+
+add_executable(TaskTimeTest test/TaskTime.test.cpp
+			    src/TaskTime.cpp)
+
+target_link_libraries(
+    TaskTimeTest
+    gtest_main
+)
+
+target_include_directories(TaskTimeTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+include(GoogleTest)
+gtest_discover_tests(TaskTimeTest)
