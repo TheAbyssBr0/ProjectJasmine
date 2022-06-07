@@ -30,6 +30,16 @@ TEST_F(TaskTimeTest, getLenTests)
     EXPECT_EQ(t3->get_len(), 1);
 }
 
+TEST_F(TaskTimeTest, timeSpentTests)
+{
+    EXPECT_EQ((int)t1->time_spent().hour, 1);
+    EXPECT_EQ((int)t1->time_spent().minute, 15);
+    EXPECT_EQ((int)t2->time_spent().hour, 0);
+    EXPECT_EQ((int)t2->time_spent().minute, 35);
+    EXPECT_EQ((int)t3->time_spent().hour, 0);
+    EXPECT_EQ((int)t3->time_spent().minute, 59);
+}
+
 TEST_F(TaskTimeTest, toStringTests)
 {
     EXPECT_STREQ(t1->to_string(10).data(), "task      14:30 - 15:45\n");

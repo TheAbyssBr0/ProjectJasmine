@@ -13,15 +13,36 @@ unsigned char end_h,
 unsigned char end_min)
 {
     task_title = t;
-    task_time[0] = start_h;
-    task_time[1] = start_min;
-    task_time[2] = end_h;
-    task_time[3] = end_min;
+    
+    task_start.hour = start_h;
+    task_start.minute = start_min;
+
+    task_end.hour = end_h;
+    task_end.minute = end_min;
 }
 
 int TaskTime::get_len()
 {
     return TaskTime::task_title.length();
+}
+
+struct time TaskTime::time_spent()
+{
+    struct time time_spent;
+
+    time_spent.hour = TaskTime::task_end.hour
+     - TaskTime::task_start.hour - 1;   // one hour is taken and added
+                                        // to minutes
+    time_spent.minute = TaskTime::task_end.minute 
+    + 60 - TaskTime::task_start.minute; // 60 here is the added minute
+
+    while(time_spent.minute >= 60)
+    {
+        ++time_spent.hour;
+        time_spent.minute -= 60;
+    }
+
+    return time_spent;
 }
 
 std::vector<char> TaskTime::serialize()
@@ -32,9 +53,10 @@ std::vector<char> TaskTime::serialize()
 
     serializer.push_back('&');
 
-    num_bytes = 4;          // 4 bytes per TaskTime
-    for(int i = 0; i < num_bytes; ++i)
-        serializer.push_back(TaskTime::task_time[i]);
+    serializer.push_back(TaskTime::task_start.hour);
+    serializer.push_back(TaskTime::task_start.minute);
+    serializer.push_back(TaskTime::task_end.hour);
+    serializer.push_back(TaskTime::task_end.minute);
 
     std::copy(TaskTime::task_title.begin(), 
         TaskTime::task_title.end(), 
@@ -48,13 +70,13 @@ std::string TaskTime::to_string(int space_len)
     std::stringstream string_stream;
     string_stream << 
     task_title << std::string(space_len - TaskTime::get_len(), ' ') << 
-    PADDING << +task_time[0] <<
+    PADDING << +TaskTime::task_start.hour <<
     ":" <<
-    PADDING << +task_time[1] <<
+    PADDING << +TaskTime::task_start.minute <<
     " - " <<
-    PADDING << +task_time[2] <<
+    PADDING << +TaskTime::task_end.hour <<
     ":" <<
-    PADDING << +task_time[3] <<
+    PADDING << +TaskTime::task_end.minute <<
     "\n";
 
     return string_stream.str();
