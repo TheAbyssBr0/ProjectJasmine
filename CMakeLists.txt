@@ -43,7 +43,18 @@ target_link_libraries(
 
 target_include_directories(ScheduleTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+add_executable(CheckTest test/Check.test.cpp
+               src/Check.cpp)
+
+target_link_libraries(
+    CheckTest
+    gtest_main
+)
+
+target_include_directories(CheckTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
 include(GoogleTest)
 gtest_discover_tests(TaskTimeTest)
 gtest_discover_tests(DayTest)
 gtest_discover_tests(ScheduleTest)
+gtest_discover_tests(CheckTest)
