@@ -1,26 +1,62 @@
-// #include <TaskTime.hpp>
+#include <TaskTime.hpp>
 #include <gtest/gtest.h>
+#include <iostream>
 
-TEST(TaskTimeTest, BasicAssertions)
+struct TaskTimeTest: testing::Test
 {
-    EXPECT_STRNE("hello", "world");
-    EXPECT_EQ(7 * 5, 35);
-}
-/*
-int main()
+    TaskTime* t1;
+    TaskTime* t2;
+    TaskTime* t3;
+
+    TaskTimeTest()
+    {
+        t1 = new TaskTime("task", 14, 30, 15, 45);
+        t2 = new TaskTime("task 2 longer title", 9, 30, 10, 5);
+        t3 = new TaskTime("t", 2, 5, 3, 4);
+    }
+
+    virtual ~TaskTimeTest()
+    {
+        delete t1;
+        delete t2;
+        delete t3;
+    }
+};
+
+TEST_F(TaskTimeTest, getLenTests)
 {
-    TaskTime _test_task_time("t", 4, 20, 5, 30);
-    TaskTime _test_task_time2("t", 0, 0, 1, 2);
-    TaskTime _test_task_time3("tt", 14, 0, 15, 2);
-    TaskTime _test_task_time4("ttt", 14, 10, 15, 20);
-    std::cout << _test_task_time.to_string(4);
-    std::cout << _test_task_time2.to_string(4);
-    std::cout << _test_task_time3.to_string(4);
-    std::cout << _test_task_time4.to_string(4);
-    
-    std::vector<char> c = _test_task_time.serialize();
-    for(int i = 0; i < c.size(); ++i)
-        std::cout << c[i];
-    std::cout << '\n'; 
+    EXPECT_EQ(t1->get_len(), 4);
+    EXPECT_EQ(t2->get_len(), 19);
+    EXPECT_EQ(t3->get_len(), 1);
 }
-*/
+
+TEST_F(TaskTimeTest, toStringTests)
+{
+    EXPECT_STREQ(t1->to_string(10).data(), "task      14:30 - 15:45\n");
+    EXPECT_STREQ(t2->to_string(20).data(), "task 2 longer title 09:30 - 10:05\n");
+    EXPECT_STREQ(t3->to_string(10).data(), "t         02:05 - 03:04\n");
+}
+
+TEST_F(TaskTimeTest, serializeTests)
+{
+    char t1_str[10] = {'&', 14, 30, 15, 45, 't', 'a', 's', 'k'};
+    std::vector<char> t1_vec = t1->serialize();
+    t1_vec.push_back('\0');
+    EXPECT_STREQ(t1_vec.data(), t1_str);
+
+    char t2_str[25] = {'&', 9, 30, 10, 5, 't', 'a', 's', 'k', ' ', '2', ' ', 
+    'l', 'o', 'n', 'g', 'e', 'r', ' ', 't', 'i', 't', 'l', 'e'};
+    std::vector<char> t2_vec = t2->serialize();
+    t2_vec.push_back('\0');
+    EXPECT_STREQ(t2_vec.data(), t2_str);
+
+    char t3_str[7] = {'&', 2, 5, 3, 4, 't'};
+    std::vector<char> t3_vec = t3->serialize();
+    t3_vec.push_back('\0');
+    EXPECT_STREQ(t3_vec.data(), t3_str);}
+
+int main(int argc, char* argv[])
+{
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
