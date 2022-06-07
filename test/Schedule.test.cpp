@@ -1,6 +1,5 @@
 #include <Schedule.hpp>
 #include <gtest/gtest.h>
-#include <iostream>
 
 TEST(ScheduleTest, allMethods)
 {
