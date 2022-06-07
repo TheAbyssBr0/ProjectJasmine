@@ -1,6 +1,5 @@
 #include <TaskTime.hpp>
 #include <gtest/gtest.h>
-#include <iostream>
 
 struct TaskTimeTest: testing::Test
 {
