@@ -47,9 +47,8 @@ struct time TaskTime::time_spent()
 
 std::vector<char> TaskTime::serialize()
 {
-    // Timetasks serialize with &, t1, t2, t3, t4, title
+    // Timetasks serialize with &, the 4 time characters , title
     std::vector<char> serializer;
-    int num_bytes;
 
     serializer.push_back('&');
 
@@ -70,14 +69,10 @@ std::string TaskTime::to_string(int space_len)
     std::stringstream string_stream;
     string_stream << 
     task_title << std::string(space_len - TaskTime::get_len(), ' ') << 
-    PADDING << +TaskTime::task_start.hour <<
-    ":" <<
-    PADDING << +TaskTime::task_start.minute <<
-    " - " <<
-    PADDING << +TaskTime::task_end.hour <<
-    ":" <<
-    PADDING << +TaskTime::task_end.minute <<
-    "\n";
+    PADDING << +TaskTime::task_start.hour << ":" <<
+    PADDING << +TaskTime::task_start.minute << " - " <<
+    PADDING << +TaskTime::task_end.hour << ":" <<
+    PADDING << +TaskTime::task_end.minute << "\n";
 
     return string_stream.str();
 }
