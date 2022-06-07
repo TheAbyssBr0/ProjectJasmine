@@ -1,11 +1,7 @@
 #include <Day.hpp>
 #include <iostream>
 
-/**
- * @brief Construct a new Day:: Day object
- * 
- * @param n 
- */
+
 Day::Day(std::string n)
 {
     Day::day_title = n;
