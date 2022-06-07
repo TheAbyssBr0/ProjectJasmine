@@ -1,7 +1,6 @@
 #include <Day.hpp>
 #include <gtest/gtest.h>
 
-
 TEST(DayTest, allMethods)
 {
     std::string title = "Monday";
