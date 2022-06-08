@@ -3,7 +3,18 @@
 #include <iomanip>
 #include <TaskTime.hpp>
 
-#define PADDING std::setw(2) << std::setfill('0') 
+#define PADDING std::setw(2) << std::setfill('0')
+
+struct time align_time(struct time t)
+{
+    while(t.minute >= 60)
+    {
+        ++t.hour;
+        t.minute -= 60;
+    }
+
+    return t;
+}
 
 TaskTime::TaskTime
 (std::string t,
@@ -36,13 +47,7 @@ struct time TaskTime::time_spent()
     time_spent.minute = TaskTime::task_end.minute 
     + 60 - TaskTime::task_start.minute; // 60 here is the added minute
 
-    while(time_spent.minute >= 60)
-    {
-        ++time_spent.hour;
-        time_spent.minute -= 60;
-    }
-
-    return time_spent;
+    return align_time(time_spent);
 }
 
 std::vector<char> TaskTime::serialize()

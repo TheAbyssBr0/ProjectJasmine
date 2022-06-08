@@ -10,6 +10,8 @@ struct time
     unsigned char minute;
 };
 
+struct time align_time(struct time t);
+
 /** 
  * Creates an object that has a task title and the duration
  * in form of two 24-hour times
