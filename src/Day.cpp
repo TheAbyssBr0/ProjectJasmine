@@ -57,13 +57,7 @@ struct time Day::get_total_time()
         total_time.minute += time_spent_day.minute;
     }
 
-    while(total_time.minute >= 60)
-    {
-        ++total_time.hour;
-        total_time.minute -= 60;
-    }
-
-    return total_time;    
+    return align_time(total_time);    
 }
 
 std::vector<char> Day::serialize()
