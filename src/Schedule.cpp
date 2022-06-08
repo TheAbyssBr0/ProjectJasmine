@@ -26,6 +26,26 @@ Day Schedule::get_day(int index)
     return Schedule::days[index];
 }
 
+struct time Schedule::get_total_time()
+{
+    struct time total_time;
+    struct time day_time;
+
+    total_time.hour = 0;
+    total_time.minute = 0;
+
+    for(unsigned i = 0; i < Schedule::days.size(); ++i)
+    {
+        day_time = days[i].get_total_time();
+        total_time.hour += day_time.hour;
+        total_time.minute += day_time.minute;
+    }
+
+    std::cout << total_time.hour << ' ' << total_time.minute << '\n';
+
+    return align_time(total_time);
+}
+
 std::vector<char> Schedule::serialize()
 {
     std::vector<char> serializer;

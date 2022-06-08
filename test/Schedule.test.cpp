@@ -1,5 +1,6 @@
 #include <Schedule.hpp>
 #include <gtest/gtest.h>
+#include <iostream>
 
 TEST(ScheduleTest, allMethods)
 {
@@ -43,10 +44,43 @@ TEST(ScheduleTest, allMethods)
     v.push_back(0);
 
     EXPECT_STREQ(v.data(), c);
+
+    struct time tt;
+    tt = s.get_total_time();
+    EXPECT_EQ(tt.hour, 4);
+    EXPECT_EQ(tt.minute, 15);
 }
 
 int main(int argc, char* argv[])
 {
+    Day d1("Monday");
+    TaskTime t1("task 01", 13, 00, 14, 50);
+    TaskTime t2("task 2", 14, 55, 15, 30);
+    d1.insert_next(t1);
+    d1.insert_next(t2);
+
+    Day d2("Tuesday");
+    d2.insert_next(t2);
+
+    Day d3("not Wednesday");
+    d3.insert_next(t1);
+
+    // add all days to schedule s
+    Schedule s;
+    s.insert_day(d1);
+    s.insert_day(d2);
+    s.insert_day(d3);
+    // delete not Wednesday
+    s.delete_day(2);
+    // delete task from Tuesday
+    s.delete_task_from(1, 0);
+    // add different task to Tuesday
+    s.add_to_day(1, t1);
+
+    struct time tt = s.get_total_time();
+
+    std::cout << tt.hour << ' ' << tt.minute << '\n';
+
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
