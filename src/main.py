@@ -1,6 +1,7 @@
 import curses
 import sqlite3
 import sys
+import os
 from typing import List
 
 import data_structs
@@ -9,6 +10,7 @@ import time_24h
 
 # PSA: all the magic numbers here are mostly padding. Too tired to label all. Tread carefully. goodluck.
 
+os.chdir(os.path.dirname(sys.executable))           # sets the cwd to path to executable
 db: sqlite3.Connection = database.get_database_connection("journal.db")
 super_task_list: List[data_structs.SuperTask] = database.read_super_tasks(db.cursor())
 week_list: List[data_structs.WeekView] = database.read_all_tasks_from_date(db.cursor(), time_24h.get_date())
