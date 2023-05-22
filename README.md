@@ -10,6 +10,7 @@ Written entirely in python with a ready restful API if the application needs to 
 - [ ] Implement arrow key navigation (and suitable UI changes to accomodate)
 - [ ] Implement mouse support
 - [ ] Precompiled binaries for MacOS (ARM), Windows (ARM and x86_64), Linux (ARM)
+- [ ] Add wiki section on how to use the app
 
 ## Known bugs:
 * Command response moves backwards with backspace
